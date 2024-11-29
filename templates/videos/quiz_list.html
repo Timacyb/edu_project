@@ -1,0 +1,20 @@
+{% extends 'videos/base.html' %}
+{% load static %}
+{% block content %}
+          <div class="row">
+            <div class="col-lg-5 col-md-5 col-sm-5">
+              <div class="left_content">
+                <div class="contact_area" style="margin-left:15px">
+                    <h2>Testlar ro'yhati:</h2>
+                    <ul>
+                        {% for quiz in quizzes %}
+                            <li><a href="{% url 'quiz' quiz.id %}">{{ quiz.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      <!-- footer section start -->
+{% endblock content %}
