@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 from pathlib import Path
-
+from decouple import config
 
 
 
@@ -22,17 +22,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-kh&9o@)*&-np&r(l31s0kxx%&6cn$@t*1cnt$$clvte*mzr_5^'
 
-# SECRET_KEY = config('SECRET_KEY')
-# DEBUG = config('DEBUG', default=False, cast=bool)
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
+
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-DEBUG = True
+# DEBUG = True
 
-# ALLOWED_HOSTS = ["127.0.0.1", "cyber-news.uz", "www.cyber-news.uz"]
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "cyber-news.uz", "www.cyber-news.uz"]
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -126,11 +126,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# STATICFILES_DIRS = [BASE_DIR / 'static']
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# STATIC_ROOT = '/home/cybernew/cyber-news.uz/django/staticfiles'
-# STATICFILES_DIRS = ('/home/cybernew/cyber-news.uz/django/static', )
+STATIC_ROOT = '/home/cybernew/cyber-news.uz/django/staticfiles'
+STATICFILES_DIRS = ('/home/cybernew/cyber-news.uz/django/static', )
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -138,8 +138,8 @@ STATICFILES_FINDERS = [
 ]
 
 MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media/'
-# MEDIA_ROOT = '/home/cybernew/cyber-news.uz/django/media'
+# MEDIA_ROOT = BASE_DIR / 'media/'
+MEDIA_ROOT = '/home/cybernew/cyber-news.uz/django/media'
 
 
 # Default primary key field type
