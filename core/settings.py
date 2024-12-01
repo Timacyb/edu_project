@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
 from pathlib import Path
+
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,9 +24,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-kh&9o@)*&-np&r(l31s0kxx%&6cn$@t*1cnt$$clvte*mzr_5^'
 
+# SECRET_KEY = config('SECRET_KEY')
+# DEBUG = config('DEBUG', default=False, cast=bool)
 # SECURITY WARNING: don't run with debug turned on in production!
+
+
 DEBUG = True
 
+# ALLOWED_HOSTS = ["127.0.0.1", "cyber-news.uz", "www.cyber-news.uz"]
 ALLOWED_HOSTS = []
 
 
@@ -122,6 +129,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# STATIC_ROOT = '/home/cybernew/cyber-news.uz/django/staticfiles'
+# STATICFILES_DIRS = ('/home/cybernew/cyber-news.uz/django/static', )
+
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder'
@@ -129,6 +139,9 @@ STATICFILES_FINDERS = [
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
+# MEDIA_ROOT = '/home/cybernew/cyber-news.uz/django/media'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -137,3 +150,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'home_page'
 
 LOGOUT_REDIRECT_URL = 'home_page'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
