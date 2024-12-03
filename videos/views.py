@@ -345,3 +345,10 @@ def instrument_list(request):
     }
 
     return render(request, "videos/instruments.html", context)
+
+
+from django.shortcuts import render
+
+
+def page_not_found(request, exception):
+    return render(request, 'videos/404.html', status=404)
