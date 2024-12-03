@@ -49,8 +49,7 @@ class ContactPageView(TemplateView):
         form = ContactForm(request.POST)
         if request.method == 'POST' and form.is_valid():
             form.save()
-            return HttpResponse(
-                "{% url 'home_page' %}")
+            return redirect("contact_page")
         context = {
             "form": form
         }
