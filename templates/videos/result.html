@@ -36,33 +36,53 @@
 
    </head>
    <body>
-      <!--header section start -->
-      <div class="header_section">
+
+         <div class="header_section">
          <div class="header_bg">
             <div class="container">
                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!--                  <a class="logo" href="index.html"><img src="{% static 'images/logo.png' %}"></a>-->
                   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                   </button>
+
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                      <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                           <a class="nav-link" href="{% url 'home_page' %}">Home</a>
+                           <a class="nav-link" href="{% url 'home_page' %}">Bosh sahifa</a>
                         </li>
-                        <li class="nav-item">
+
+                         <li class="nav-item">
                            <a class="nav-link" href="{% url 'quiz_list' %}">Testlar</a>
                         </li>
-                        <li class="nav-item">
-                           <a class="nav-link" href="{% url 'blog_page' %}">Blog</a>
+
+                        <li class="nav-item dropdown"><a href="#" class="nav-link" data-toggle="dropdown"> Resurslar <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'kitoblar_page' %}" class="nav-link">Kitoblar</a></li>
+                                <li><a href="{% url 'quiz_list' %}" class="nav-link">Terminlar</a></li>
+                            </ul>
                         </li>
+
+                        <li class="nav-item">
+                           <a class="nav-link" href="{% url 'blog_page' %}">Yangiliklar</a>
+                        </li>
+
                         <li class="nav-item">
                            <a class="nav-link" href="{% url 'contact_page' %}">Biz bilan aloqa</a>
                         </li>
+                        {% if request.user.is_authenticated %}
+                            <button type="submit" class="btn btn-danger"  style="margin-top: -6px">
+                                <form id="logout-form" action="{% url 'logout' %}" method="post">
+                                <a href="#" onclick="document.getElementById('logout-form').submit(); return false;" style="color: white">Profildan chiqish</a>
+                                {% csrf_token %}
+                                </form>
+                            </button>
+                        {% else %}
+                        <li class="nav-item">
+                           <a class="nav-link" href="{% url 'login_page' %}">Login</a>
+                        </li>
+                        {% endif %}
                      </ul>
-                     <div class="call_section">
-                        <ul>
-                        </ul>
-                     </div>
                   </div>
                </nav>
             </div>

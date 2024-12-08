@@ -80,9 +80,20 @@ class Comment(models.Model):
 
 class Quiz(models.Model):
     name = models.CharField(max_length=100)
+    time_limit = models.PositiveIntegerField(default=60)
 
     def __str__(self):
         return self.name
+
+
+class QuizResult(models.Model):
+    user = models.ForeignKey('auth.User',
+                             on_delete=models.CASCADE)  # Укажите, какая модель используется для пользователей
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    score = models.PositiveIntegerField()
+    grade = models.PositiveIntegerField()
+    time_spent = models.PositiveIntegerField()  # Время прохождения в секундах
+    completed_at = models.DateTimeField(auto_now_add=True)
 
 
 class Question(models.Model):
@@ -150,6 +161,23 @@ class Instrument(models.Model):
     title = models.CharField(max_length=255)
     body = models.TextField()
     image = models.ImageField()
+
+    def __str__(self):
+        return self.title
+
+
+class Kitoblar(models.Model):
+    class Status(models.TextChoices):
+        Draft = 'DF', 'Draft'
+        Published = 'PB', 'Published'
+
+    title = models.CharField(max_length=255)
+    body = models.TextField()
+    pdf = models.FileField(upload_to='courses/pdf')
+
+    status = models.CharField(max_length=2,
+                              choices=Status.choices,
+                              default=Status.Draft)
 
     def __str__(self):
         return self.title

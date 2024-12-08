@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Videos, Category, Contact, Comment, Quiz, Question, Yangi, Termin, Instrument
+from .models import Videos, Category, Contact, Comment, Quiz, Question, Yangi, Termin, Instrument, Kitoblar, QuizResult
 
 
 @admin.register(Videos)
@@ -64,3 +64,17 @@ class InstrumentAdmin(admin.ModelAdmin):
     list_display = ["title"]
     list_filter = ["title"]
     ordering = ["title"]
+
+
+@admin.register(Kitoblar)
+class KitoblarAdmin(admin.ModelAdmin):
+    list_display = ["title", "body"]
+    list_filter = ["title"]
+    ordering = ["status"]
+
+
+@admin.register(QuizResult)
+class QuizResultAdmin(admin.ModelAdmin):
+    list_display = ('user', 'quiz', 'score', 'grade', 'time_spent', 'completed_at')
+    list_filter = ('quiz', 'completed_at')
+    search_fields = ('user__username', 'quiz__title')

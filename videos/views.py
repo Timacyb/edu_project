@@ -1,3 +1,4 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
@@ -7,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.utils import timezone
 
-from .models import Category, Quiz, Videos, Yangi, Instrument, Termin
+from .models import Category, Quiz, Videos, Yangi, Instrument, Termin, Kitoblar, QuizResult
 from django.views.generic import ListView, TemplateView, DetailView
 from .forms import ContactForm
 
@@ -178,8 +179,11 @@ class QuizView(View):
         quiz = get_object_or_404(Quiz, id=quiz_id)
         questions = quiz.questions.all()
         request.session['start_time'] = timezone.now().timestamp()
-        return render(request, 'videos/quiz.html',
-                      {'quiz': quiz, 'questions': questions, 'time_limit': 60})  # Укажите лимит времени в секундах
+        return render(request, 'videos/quiz.html', {
+            'quiz': quiz,
+            'questions': questions,
+            'time_limit': quiz.time_limit  # Берем время из базы
+        })
 
     def post(self, request, quiz_id):
         quiz = get_object_or_404(Quiz, id=quiz_id)
@@ -188,8 +192,8 @@ class QuizView(View):
         total_questions = questions.count()
 
         start_time = request.session.get('start_time')
-        elapsed_time = timezone.now().timestamp() - start_time
-        time_limit = 60  # Ограничение времени в секундах
+        elapsed_time = int(timezone.now().timestamp() - start_time)
+        time_limit = quiz.time_limit  # Берем лимит времени из базы
 
         # Сообщение о статусе завершения теста
         if elapsed_time > time_limit:
@@ -206,12 +210,32 @@ class QuizView(View):
         # Рассчет оценки в процентах
         grade = round((score / total_questions) * 100)
 
+        # Сохранение результата
+        QuizResult.objects.create(
+            user=request.user,
+            quiz=quiz,
+            score=score,
+            grade=grade,
+            time_spent=elapsed_time
+        )
+
         return render(request, 'videos/result.html', {
             'score': score,
             'total': total_questions,
             'grade': grade,
             'message': result_message
         })
+
+
+@staff_member_required
+def quiz_results(request, quiz_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+    results = QuizResult.objects.filter(quiz=quiz).select_related('user')
+
+    return render(request, 'videos/quiz_results.html', {
+        'quiz': quiz,
+        'results': results
+    })
 
 
 class CoursesView(TemplateView):
@@ -249,6 +273,23 @@ def instrument_list(request):
     }
 
     return render(request, "videos/instruments.html", context)
+
+
+def termin_list(request):
+    termin_list = Termin.objects.all()
+    context = {
+        "termin_list": termin_list
+    }
+
+    return render(request, "videos/termins.html", context)
+
+
+def kitob_list(request):
+    kitob_list = Kitoblar.objects.filter(status=Kitoblar.Status.Published)
+    context = {
+        "kitob_list": kitob_list
+    }
+    return render(request, "videos/kitoblar.html", context)
 
 
 from django.shortcuts import render

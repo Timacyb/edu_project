@@ -1,17 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<style>
-    .video-item {
-        border: 2px solid #333; /* Цвет и ширина границы */
-        padding: 10px;          /* Внутренний отступ */
-        margin: 10px 0;         /* Отступ между коробками */
-        border-radius: 5px;     /* Скругление углов */
-        background-color: #f9f9f9; /* Фоновый цвет коробки */
-        margin-right: 800px;
-        margin-left: 15px;
-}
-</style>
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,7 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Contact</title>
+      <title>CyberEdu</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -39,17 +28,67 @@
       <!-- Tweaks for older IEs-->
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
       <!-- fonts -->
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,700&display=swap" rel="stylesheet">
       <!-- owl stylesheets -->
       <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+
+<style>
+    .blog_section {
+        padding: 20px 20px;
+        background-color: #f9f9f9;
+    }
+
+    .blog_card {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 16px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .blog_card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .blog_image {
+        flex-shrink: 0;
+        width: 150px;
+        height: 150px;
+        border-radius: 8px;
+        object-fit: cover;
+        margin-right: 15px;
+    }
+
+    .blog_content {
+        flex: 1;
+    }
+
+    .blog_title {
+        font-weight: bold;
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 8px;
+    }
+
+    .blog_body {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.5;
+    }
+</style>
    </head>
    <body>
-
-         <div class="header_section">
+      <!--header section start -->
+      <div class="header_section">
          <div class="header_bg">
             <div class="container">
                <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -63,6 +102,13 @@
                         <li class="nav-item active">
                            <a class="nav-link" href="{% url 'home_page' %}">Bosh sahifa</a>
                         </li>
+
+<!--                        <li class="nav-item dropdown"><a href="#" class="nav-link" data-toggle="dropdown"> Kurslar <span class="caret"></span></a>-->
+<!--                            <ul class="dropdown-menu">-->
+<!--                                <li><a href="{% url 'cours_page' %}" class="nav-link">Videolar</a></li>-->
+<!--                                <li><a href="{% url 'quiz_list' %}" class="nav-link">Testlar</a></li>-->
+<!--                            </ul>-->
+<!--                        </li>-->
 
                          <li class="nav-item">
                            <a class="nav-link" href="{% url 'quiz_list' %}">Testlar</a>
@@ -100,44 +146,30 @@
             </div>
          </div>
       </div>
-      <!--header section end -->
-          <div class="row">
-            <div class="col-lg-5 col-md-5 col-sm-5">
-              <div class="left_content">
-                <div class="contact_area">
-                  <h2 style="margin-left: 15px;">Tarmoq Xavfsizligi kursi:</h2>
-                        {% for video in networksecurity%}
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="video-item">
-                                            <a href="{% url 'videos_detail_page' video.pk %}">
-                                                <li style="color: blue">{{ video.title }}</li>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                        {% endfor %}
+      <!--banner section start -->
+            {% block content %}
+<div class="blog_section">
+    <div class="container">
+        <div class="row">
+            {% for kitob in kitob_list %}
+            <div class="col-12">
+                <div class="blog_card">
+                    <div class="blog_content">
+                        <h5 class="blog_title">{{ kitob.title }}</h5>
+                        <p class="blog_body">{{ kitob.body|truncatewords:100 }}</p>
+                    </div>
+                    {% if kitob.pdf %}
+                    <a href="{{ kitob.pdf.url }}" download class="btn btn-primary" style="margin-top: 10px;">
+                        PDFni yuklash
+                    </a>
+                    {% endif %}
                 </div>
-              </div>
             </div>
-          </div>
-<!--          <div class="row">-->
-<!--            <div class="col-lg-5 col-md-5 col-sm-5">-->
-<!--              <div class="left_content">-->
-<!--                <div class="contact_area">-->
-<!--                  <h2>Biz bilan aloqa</h2>-->
-<!--                  <h5>Kurslarimizdan foydalanishni xoxlasangiz bizga murojaat qiling.</h5>-->
-<!--                  <form action="#" class="contact_form" method="post">{% csrf_token %}-->
-<!--                    <input class="form-control" type="text" placeholder="Name*" name="name"><br>-->
-<!--                    <input class="form-control" type="email" placeholder="Email*" name="email"><br>-->
-<!--                    <textarea class="form-control" cols="30" rows="10" placeholder="Message*" name="message"></textarea><br>-->
-<!--                    <input type="submit" value="Xabar jo'natish">-->
-<!--                  </form>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-
+            {% endfor %}
+        </div>
+    </div>
+</div>
+            {% endblock content %}
       <!-- footer section start -->
       <div class="footer_section layout_padding">
          <div class="container">
@@ -185,40 +217,23 @@
       <!-- copyright section start -->
       <div class="copyright_section">
          <div class="container">
-            <p class="copyright_text">© 2020 All Rights Reserved. <a href="https://html.design">Free html  Templates</a></p>
+            <p class="copyright_text">© 2024 Barcha huquqlar himoyalangan.</p>
          </div>
       </div>
-
       <!-- copyright section end -->
       <!-- Javascript files-->
-      <script src="js/jquery.min.js"></script>
-      <script src="js/popper.min.js"></script>
-      <script src="js/bootstrap.bundle.min.js"></script>
-      <script src="js/jquery-3.0.0.min.js"></script>
-      <script src="js/plugin.js"></script>
+      <script src="{% static 'js/jquery.min.js' %}"></script>
+      <script src="{% static 'js/popper.min.js' %}"></script>
+      <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
+      <script src="{% static 'js/plugin.js' %}"></script>
       <!-- sidebar -->
-      <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-      <script src="js/custom.js"></script>
+      <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+      <script src="{% static 'js/custom.js' %}"></script>
       <!-- javascript -->
       <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+
    </body>
 </html>
-
-<!--{% block title %}  Biz bilan aloqa {% endblock title %}-->
-
-<!--    <div class="row">-->
-<!--      <div class="col-lg-8 col-md-8 col-sm-8">-->
-<!--        <div class="left_content">-->
-<!--          <div class="contact_area">-->
-<!--            <h2>Contact Us</h2>-->
-<!--            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labolore magna aliqua. Ut enim ad minim veniam. Lorem ipsum dosectetur adipisicing elit, sed do.Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>-->
-<!--            <form action="#" class="contact_form" method="post">{% csrf_token %}-->
-<!--              <input class="form-control" type="text" placeholder="Name*" name="name">-->
-<!--              <input class="form-control" type="email" placeholder="Email*" name="email">-->
-<!--              <textarea class="form-control" cols="30" rows="10" placeholder="Message*" name="message"></textarea>-->
-<!--              <input type="submit" value="Xabar jo'natish">-->
-<!--            </form>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->

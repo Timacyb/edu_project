@@ -36,17 +36,21 @@
        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-       <style>
+<style>
     .blog_section {
-    padding: 20px 0;
+        padding: 20px 20px;
+        background-color: #f9f9f9;
     }
 
     .blog_card {
+        display: flex;
+        align-items: center;
         border: 1px solid #ddd;
         border-radius: 8px;
-        padding: 10px;
+        padding: 15px;
         background-color: #fff;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 16px;
         transition: transform 0.3s, box-shadow 0.3s;
     }
 
@@ -56,30 +60,30 @@
     }
 
     .blog_image {
+        flex-shrink: 0;
+        width: 150px;
+        height: 150px;
         border-radius: 8px;
-        max-height: 200px;
         object-fit: cover;
-        width: 100%;
+        margin-right: 15px;
+    }
+
+    .blog_content {
+        flex: 1;
     }
 
     .blog_title {
         font-weight: bold;
         font-size: 18px;
         color: #333;
-        margin: 10px 0;
+        margin-bottom: 8px;
     }
 
     .blog_body {
         font-size: 14px;
         color: #555;
         line-height: 1.5;
-        margin: 0;
     }
-
-    .mb-3 {
-        margin-bottom: 16px !important;
-    }
-
 </style>
    </head>
    <body>
@@ -112,7 +116,7 @@
 
                         <li class="nav-item dropdown"><a href="#" class="nav-link" data-toggle="dropdown"> Resurslar <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{% url 'instrument_page' %}" class="nav-link">Instrumentlar</a></li>
+                                <li><a href="{% url 'kitoblar_page' %}" class="nav-link">Kitoblar</a></li>
                                 <li><a href="{% url 'quiz_list' %}" class="nav-link">Terminlar</a></li>
                             </ul>
                         </li>
@@ -144,21 +148,22 @@
       </div>
       <!--banner section start -->
             {% block content %}
-      <div class="blog_section">
-            <div class="container">
-                <div class="row">
-                    {% for instrument in instrument_list %}
-                    <div class="col-md-6 mb-3">
-                        <div class="blog_card">
-                            <img src="{{ instrument.image.url }}" class="img-fluid blog_image" alt="{{ instrument.title }}">
-                            <h5 class="blog_title mt-2">{{ instrument.title }}</h5>
-                            <p class="blog_body">{{ instrument.body|truncatewords:100 }}</p>
-                        </div>
+<div class="blog_section">
+    <div class="container">
+        <div class="row">
+            {% for instrument in instrument_list %}
+            <div class="col-12">
+                <div class="blog_card">
+                    <div class="blog_content">
+                        <h5 class="blog_title">{{ instrument.title }}</h5>
+                        <p class="blog_body">{{ instrument.body|truncatewords:100 }}</p>
                     </div>
-                    {% endfor %}
                 </div>
             </div>
-      </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
             {% endblock content %}
       <!-- footer section start -->
       <div class="footer_section layout_padding">
